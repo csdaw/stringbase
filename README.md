@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# stringbase
+# stringrb
 
 <!-- badges: start -->
 <!-- badges: end -->

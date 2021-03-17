@@ -1,4 +1,4 @@
-Package: stringbase
+Package: stringrb
 Title: A Base R Version of 'stringr'
 Version: 0.0.0.9000
 Authors@R: 
