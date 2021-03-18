@@ -28,5 +28,10 @@ Vectorised over \code{string}, but not \code{pattern} which must be
 a single string (unlike stringr).
 }
 \examples{
+shopping_list <- c("apples x4", "bag of flour", "bag of sugar", "milk x2")
+str_extract(shopping_list, "\\\\d")
+str_extract(shopping_list, "[a-z]+")
+str_extract(shopping_list, "[a-z]{1,4}")
+str_extract(shopping_list, "\\\\b[a-z]{1,4}\\\\b")
 
 }

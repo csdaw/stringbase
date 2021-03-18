@@ -16,6 +16,11 @@
 #' elements will be replaced with `NA`.
 #'
 #' @examples
+#' shopping_list <- c("apples x4", "bag of flour", "bag of sugar", "milk x2")
+#' str_extract(shopping_list, "\\d")
+#' str_extract(shopping_list, "[a-z]+")
+#' str_extract(shopping_list, "[a-z]{1,4}")
+#' str_extract(shopping_list, "\\b[a-z]{1,4}\\b")
 #'
 #' @export
 str_extract <- function(string, pattern) {
