@@ -9,7 +9,7 @@ Authors@R:
            comment = c(ORCID = "0000-0002-7151-5971"))
 Description: A base R version of 'stringr'. Combines the good parts of 
     'petermeissner/stringb' and 'hadley/stringb'.
-License: MIT
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
