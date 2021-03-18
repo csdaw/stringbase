@@ -26,6 +26,3 @@ Default is \code{FALSE}.}
 \item{\code{perl()}}{The default, match using a perl-compatible regular expression.}
 }
 }
-\examples{
-
-}
