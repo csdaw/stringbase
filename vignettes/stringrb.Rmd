@@ -1,0 +1,51 @@
+---
+title: "Introduction to stringrb"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to stringrb}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(stringrb)
+```
+
+## Pattern matching
+
+The vast majority of stringrb functions work with patterns. These are 
+parameterised by the task they perform and the types of patterns they match.
+
+### Tasks
+
+Each pattern matching function has the same first two arguments, a character 
+vector of strings to process and a single pattern to match. stringr provides 
+pattern matching functions to detect, locate, extract, match, replace, and 
+split strings. I’ll illustrate how they work with some strings and a regular 
+expression designed to match (US) phone numbers:
+
+```{r}
+strings <- c(
+  "apple", 
+  "219 733 8965", 
+  "329-293-8753", 
+  "Work: 579-499-7527; Home: 543.355.3679"
+)
+phone <- "([2-9][0-9]{2})[- .]([0-9]{3})[- .]([0-9]{4})"
+```
+
+-   `str_extract()` extracts text corresponding to the **first** match, 
+    returning a character vector. `str_extract_all()` extracts all matches and 
+    returns a list of character vectors.
+
+    ```{r}
+    # What are the phone numbers?
+    str_extract(strings, phone)
+    #str_extract_all(strings, phone)
+    #str_extract_all(strings, phone, simplify = TRUE)
+    ```

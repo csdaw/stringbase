@@ -1,0 +1,46 @@
+---
+title: "Regular expressions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Regular expressions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(stringrb)
+```
+
+Regular expressions are a concise and flexible tool for describing patterns in 
+strings. This vignette describes the key features of stringrb's regular 
+expressions, as implemented in base R. It is not a tutorial, so if you're unfamiliar regular expressions, try starting at <http://r4ds.had.co.nz/strings.html>. 
+If you want to master the details, try reading the classic 
+[_Mastering Regular Expressions_](https://amzn.com/0596528124) by 
+Jeffrey E. F. Friedl. 
+
+Perl compatible regular expressions are the default pattern engine in stringrb. 
+That means when you use a pattern matching function with a bare string, 
+it's equivalent to wrapping it in a call to `perl()`:
+
+```{r, eval = FALSE}
+# The regular call:
+str_extract(fruit, "nana")
+# Is shorthand for
+str_extract(fruit, perl("nana"))
+```
+
+You will need to use `regex()` explicitly if you want to override the default options, as you'll see in examples below.
+
+## Basic matches
+
+The simplest patterns match exact strings:
+
+```{r}
+x <- c("apple", "banana", "pear")
+str_extract(x, "an")
+```
