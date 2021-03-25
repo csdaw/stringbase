@@ -50,8 +50,8 @@ You can perform a case-insensitive match using `ignore_case = TRUE`:
     
 ```{r}
 bananas <- c("banana", "Banana", "BANANA")
-#str_detect(bananas, "banana")
-#str_detect(bananas, regex("banana", ignore_case = TRUE))
+str_detect(bananas, "banana")
+str_detect(bananas, regex("banana", ignore_case = TRUE))
 ```
 
 The next step up in complexity is `.`, which matches any character except a 
@@ -65,7 +65,7 @@ You can allow `.` to match everything, including `\n`, by setting
 `dotall = TRUE`:
 
 ```{r}
-#str_detect("\nX\n", ".X.")
+str_detect("\nX\n", ".X.")
 #str_detect("\nX\n", regex(".X.", dotall = TRUE))
 ```
 
@@ -114,8 +114,8 @@ input as part of a regular expression.
 x <- c("a.b.c.d", "aeb")
 starts_with <- "a.b"
 
-#str_detect(x, paste0("^", starts_with))
-#str_detect(x, paste0("^\\Q", starts_with, "\\E"))
+str_detect(x, paste0("^", starts_with))
+str_detect(x, paste0("^\\Q", starts_with, "\\E"))
 ```
 
 ## Special characters
@@ -186,7 +186,7 @@ There are five other escaped pairs that match narrower classes of characters:
     
     ```{r}
     # Some Laotian numbers
-    #str_detect("១២៣", "\\d")
+    str_detect("១២៣", "\\d")
     ```
     
 *   `\s`: matches any whitespace. This includes tabs, newlines, form feeds, 
@@ -268,7 +268,7 @@ operations, like `[\p{Letter}--\p{script=latin}]`. See
 possible matches. For example, `abc|def` will match `abc` or `def`. 
 
 ```{r}
-#str_detect(c("abc", "def", "ghi"), "abc|def")
+str_detect(c("abc", "def", "ghi"), "abc|def")
 ```
 
 Note that the precedence for `|` is low, so that `abc|def` matches `abc` or 
@@ -411,8 +411,8 @@ match fails and the engine needs to back-track, an atomic match is kept as is:
 it succeeds or fails as a whole. Compare the following two regular expressions:
 
 ```{r}
-#str_detect("ABC", "(?>A|.B)C")
-#str_detect("ABC", "(?:A|.B)C")
+str_detect("ABC", "(?>A|.B)C")
+str_detect("ABC", "(?:A|.B)C")
 ```
 
 The atomic match fails because it matches A, and then the next character is a C 
@@ -456,7 +456,7 @@ There are two ways to include comments in a regular expression. The first is
 with `(?#...)`:
 
 ```{r}
-#str_detect("xyz", "x(?#this is a comment)")
+str_detect("xyz", "x(?#this is a comment)")
 ```
 
 The second is to use `regex(comments = TRUE)`. This form ignores spaces and 

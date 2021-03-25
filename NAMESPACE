@@ -3,5 +3,6 @@
 export(fixed)
 export(perl)
 export(regex)
+export(str_detect)
 export(str_extract)
 export(str_extract_all)
