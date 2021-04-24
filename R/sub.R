@@ -1,4 +1,9 @@
 str_sub <- function(string, start = 1L, end = 1000000L) {
+  if (is.matrix(start)) {
+    end <- start[, 2]
+    start <- start[, 1]
+  }
+
   if (!any(start < 0) & !any(end < 0)) {
     substring(string, start, end)
   } else {
