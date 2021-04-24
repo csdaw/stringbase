@@ -50,21 +50,17 @@ or a negative integer which counts from the right. The positions are inclusive,
 and if longer than the string, will be silently truncated.
 
 ```{r}
-#x <- c("abcdef", "ghifjk")
+x <- c("abcdef", "ghifjk")
 
 # The 3rd letter
-#str_sub(x, 3, 3)
+str_sub(x, 3, 3)
 
 # The 2nd to 2nd-to-last character
-#str_sub(x, 2, -2)
+str_sub(x, 2, -2)
 ```
 
-You can also use `str_sub()` to modify strings:
-
-```{r}
-#str_sub(x, 3, 3) <- "X"
-#x
-```
+Unlike `stringr` you can't use `str_sub()` to modify strings. It is probably
+easier to use `sub()`/`gsub()` instead.
 
 To duplicate individual strings, you can use `str_dup()`:
 
