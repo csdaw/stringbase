@@ -2,9 +2,12 @@
 % Please edit documentation in R/sub.R
 \name{str_sub}
 \alias{str_sub}
+\alias{str_sub<-}
 \title{Extract and replace substrings from a character vector}
 \usage{
 str_sub(string, start = 1L, end = 1000000L)
+
+str_sub(string, start = 1L, end = 1000000L) <- value
 }
 \arguments{
 \item{string}{\verb{character vector} of strings.}
@@ -31,7 +34,10 @@ Substrings are inclusive - they include the characters at both start and
 end positions. \code{str_sub(string, 1, -1)} will return the complete
 substring, from the first character to the last.
 
-Does not support replacement form (unlike stringr).
+This function includes limited support for replacement form. Substring length
+must match replacement length only one replacement can be made per string.
+For multiple replacements per string it is probably better to use \code{mgsub()}
+from the \code{mgsub} package.
 }
 \examples{
 hw <- "Hadley Wickham"
@@ -56,4 +62,20 @@ str_sub(hw, pos[, 1], pos[, 2])
 # Vectorisation
 str_sub(hw, seq_len(nchar(hw)))
 str_sub(hw, end = seq_len(nchar(hw)))
+
+# Replacement form
+# (Limited support, substring length must match replacement length and
+# only one replacement can be made per string. I')
+test <- c("red", "orange", "green", "blue")
+str_sub(test, 1, 3) <- "333"
+test
+
+test2 <- c("Africa", "Asia", "Australia")
+str_sub(test2, -2) <- "z"
+test2
+
+test3 <- c("AAA", "BBB", "CCC", "DDD")
+str_sub(test3, c(1, 3)) <- c("1", "3")
+test3
+
 }

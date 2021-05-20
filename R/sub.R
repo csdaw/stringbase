@@ -8,7 +8,10 @@
 #' end positions. `str_sub(string, 1, -1)` will return the complete
 #' substring, from the first character to the last.
 #'
-#' Does not support replacement form (unlike stringr).
+#' This function includes limited support for replacement form. Substring length
+#' must match replacement length only one replacement can be made per string.
+#' For multiple replacements per string it is probably better to use `mgsub()`
+#' from the `mgsub` package.
 #'
 #' @param string `character vector` of strings.
 #' @param start `integer vector` giving the position(s) of the first character,
@@ -42,6 +45,22 @@
 #' # Vectorisation
 #' str_sub(hw, seq_len(nchar(hw)))
 #' str_sub(hw, end = seq_len(nchar(hw)))
+#'
+#' # Replacement form
+#' # (Limited support, substring length must match replacement length and
+#' # only one replacement can be made per string. I')
+#' test <- c("red", "orange", "green", "blue")
+#' str_sub(test, 1, 3) <- "333"
+#' test
+#'
+#' test2 <- c("Africa", "Asia", "Australia")
+#' str_sub(test2, -2) <- "z"
+#' test2
+#'
+#' test3 <- c("AAA", "BBB", "CCC", "DDD")
+#' str_sub(test3, c(1, 3)) <- c("1", "3")
+#' test3
+#'
 #' @export
 str_sub <- function(string, start = 1L, end = 1000000L) {
   if (is.matrix(start)) {
@@ -66,4 +85,29 @@ str_sub <- function(string, start = 1L, end = 1000000L) {
     substring(string, start, end)
   }
 }
-lengths
+
+#' @export
+#' @rdname str_sub
+"str_sub<-" <- function(string, start = 1L, end = 1000000L, value) {
+  if (is.matrix(start)) {
+    end <- start[, 2]
+    start <- start[, 1]
+  }
+
+  if (!any(start < 0) & !any(end < 0)) {
+    "substring<-"(string, start, end, value)
+  } else {
+    # argument recycling
+    n <- max(length(string), length(start), length(end))
+    string <- rep_len(string, n)
+    start <- rep_len(start, n)
+    end <- rep_len(end, n)
+
+    # dealing with negative integers
+    nchars <- nchar(string)
+    start[start < 0] <- nchars[start < 0] + 1 + start[start < 0]
+    end[end < 0] <- nchars[end < 0] + 1 + end[end < 0]
+
+    "substring<-"(string, start, end, value)
+  }
+}
