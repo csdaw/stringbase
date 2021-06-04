@@ -20,6 +20,7 @@
 #' output of `str_locate_all()`.
 #' @param end `integer vector` giving the position(s) of the last character,
 #' default is `1000000L`. Negative values count backwards from the last character.
+#' @param value replacement `string`
 #' @return Returns a `character vector` of substring(s) from `start` to `end`
 #' (inclusive). Will be length of longest input argument.
 #' @examples

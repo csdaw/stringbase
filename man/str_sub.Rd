@@ -19,6 +19,8 @@ output of \code{str_locate_all()}.}
 
 \item{end}{\verb{integer vector} giving the position(s) of the last character,
 default is \code{1000000L}. Negative values count backwards from the last character.}
+
+\item{value}{replacement \code{string}}
 }
 \value{
 Returns a \verb{character vector} of substring(s) from \code{start} to \code{end}
