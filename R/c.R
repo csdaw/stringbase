@@ -2,8 +2,8 @@
 #'
 #' @description
 #' `str_c()` combines multiple character vectors into a single character
-#' vector. It's very similar to [`paste0()`] but uses base R recycling and
-#' tidyverse `NA` rules.
+#' vector. It's very similar to [`paste0()`] in that it uses base R recycling
+#' rules, however it uses tidyverse `NA` rules.
 #'
 #' One way to understand how `str_c()` works is picture a 2d matrix of strings,
 #' where each argument forms a column. `sep` is inserted between each column,
@@ -24,9 +24,9 @@
 #' @param collapse Optional `string` used to combine output into single
 #'   string. Generally better to use `str_flatten()` if you needed this
 #'   behaviour.
-#' @return If `collapse = NULL` (the default), returns a character vector with
+#' @return If `collapse = NULL` (the default), returns a `character vector` with
 #'   length equal to the longest input. If `collapse` is a string, returns a
-#'   character vector of length 1.
+#'   `character vector` of length 1.
 #' @export
 #' @keywords internal
 #' @examples
@@ -38,6 +38,15 @@
 #' str_c(letters, collapse = "")
 #' str_c(letters, collapse = ", ")
 #'
+#' # Similarities with paste() ---------------------
+#'
+#' # Uses base R recycling rules
+#' str_c(1:2, 1:3)
+#' paste0(1:2, 1:3)
+#'
+#' str_c("x", character())
+#' paste0("x", character())
+#'
 #' # Differences from paste() ----------------------
 #' # Missing inputs give missing outputs
 #' str_c(c("a", NA, "b"), "-d")
@@ -46,22 +55,20 @@
 #' # Use str_replace_NA to display literal NAs:
 #' # str_c(str_replace_na(c("a", NA, "b")), "-d")
 #'
-#' # Uses base R recycling rules
-#' str_c(1:2, 1:3)
-#' paste0(1:2, 1:3)
-#'
-#' str_c("x", character())
-#' paste0("x", character())
 str_c <- function(..., sep = "", collapse = NULL) {
-  if (!is.character(sep) && length(sep) != 1) {
-    stop("`sep` must be a single string")
-  }
 
-  if (!is.null(collapse) && !is.character(collapse) && length(collapse) != 1) {
-    stop("`collapse` must be NULL or single string")
+  if (length(sep) > 1) {
+    warning("argument `sep` should be a single character string; only the first element is used")
+  }
+  if (!is.null(collapse) && length(collapse) > 1) {
+    warning("argument `collapse` should be NULL or a single character string; only the first element is used")
   }
 
   dots <- list(...)
+  if (length(dots) == 0) {
+    return(character())
+  }
+
   # check which of ... args is the longest
   long_arg <- which.max(lengths(dots))
 

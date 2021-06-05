@@ -24,14 +24,14 @@ string. Generally better to use \code{str_flatten()} if you needed this
 behaviour.}
 }
 \value{
-If \code{collapse = NULL} (the default), returns a character vector with
+If \code{collapse = NULL} (the default), returns a \verb{character vector} with
 length equal to the longest input. If \code{collapse} is a string, returns a
-character vector of length 1.
+\verb{character vector} of length 1.
 }
 \description{
 \code{str_c()} combines multiple character vectors into a single character
-vector. It's very similar to \code{\link[=paste0]{paste0()}} but uses base R recycling and
-tidyverse \code{NA} rules.
+vector. It's very similar to \code{\link[=paste0]{paste0()}} in that it uses base R recycling
+rules, however it uses tidyverse \code{NA} rules.
 
 One way to understand how \code{str_c()} works is picture a 2d matrix of strings,
 where each argument forms a column. \code{sep} is inserted between each column,
@@ -48,6 +48,15 @@ str_c(letters[-26], " comes before ", letters[-1])
 str_c(letters, collapse = "")
 str_c(letters, collapse = ", ")
 
+# Similarities with paste() ---------------------
+
+# Uses base R recycling rules
+str_c(1:2, 1:3)
+paste0(1:2, 1:3)
+
+str_c("x", character())
+paste0("x", character())
+
 # Differences from paste() ----------------------
 # Missing inputs give missing outputs
 str_c(c("a", NA, "b"), "-d")
@@ -56,11 +65,5 @@ paste0(c("a", NA, "b"), "-d")
 # Use str_replace_NA to display literal NAs:
 # str_c(str_replace_na(c("a", NA, "b")), "-d")
 
-# Uses base R recycling rules
-str_c(1:2, 1:3)
-paste0(1:2, 1:3)
-
-str_c("x", character())
-paste0("x", character())
 }
 \keyword{internal}
