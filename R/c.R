@@ -2,8 +2,8 @@
 #'
 #' @description
 #' `str_c()` combines multiple character vectors into a single character
-#' vector. It's very similar to [`paste0()`] in that it uses base R recycling
-#' rules, however it uses tidyverse `NA` rules.
+#' vector. It's very similar to [`paste0()`] but uses tidyverse recycling and
+#' `NA` rules.
 #'
 #' One way to understand how `str_c()` works is picture a 2d matrix of strings,
 #' where each argument forms a column. `sep` is inserted between each column,
@@ -20,13 +20,13 @@
 #'   a missing value is combined with another string the result will always
 #'   be missing. Use `dplyr::coalesce()` or `str_replace_na()` to convert
 #'   desired value.
-#' @param sep `string` to insert between input vectors.
-#' @param collapse Optional `string` used to combine output into single
+#' @param sep String to insert between input vectors.
+#' @param collapse Optional string used to combine output into single
 #'   string. Generally better to use `str_flatten()` if you needed this
 #'   behaviour.
-#' @return If `collapse = NULL` (the default), returns a `character vector` with
-#'   length equal to the longest input. If `collapse` is a string, returns a
-#'   `character vector` of length 1.
+#' @return If `collapse = NULL` (the default) returns a `character vector` with
+#'   length equal to the longest input. If `collapse` is a string, returns
+#'   a `character vector` of length 1.
 #' @export
 #' @keywords internal
 #' @examples
@@ -38,46 +38,56 @@
 #' str_c(letters, collapse = "")
 #' str_c(letters, collapse = ", ")
 #'
-#' # Similarities with paste() ---------------------
+#' # Differences from paste0() ----------------------
+#' # Missing inputs give missing outputs
+#' str_c(c("a", NA, "b"), "-d")
+#' paste0(c("a", NA, "b"), "-d")
+#' # Use str_replace_NA to display literal NAs:
+#' ####str_c(str_replace_na(c("a", NA, "b")), "-d")
 #'
-#' # Uses base R recycling rules
-#' str_c(1:2, 1:3)
+#' # Uses tidyverse recycling rules
+#' \dontrun{str_c(1:2, 1:3)} # errors
 #' paste0(1:2, 1:3)
 #'
 #' str_c("x", character())
 #' paste0("x", character())
-#'
-#' # Differences from paste() ----------------------
-#' # Missing inputs give missing outputs
-#' str_c(c("a", NA, "b"), "-d")
-#' paste0(c("a", NA, "b"), "-d")
-#'
-#' # Use str_replace_NA to display literal NAs:
-#' # str_c(str_replace_na(c("a", NA, "b")), "-d")
-#'
 str_c <- function(..., sep = "", collapse = NULL) {
-
-  if (length(sep) > 1) {
-    warning("argument `sep` should be a single character string; only the first element is used")
+  if (!is_string(sep)) {
+    stop("`sep` must be a single string")
   }
-  if (!is.null(collapse) && length(collapse) > 1) {
-    warning("argument `collapse` should be NULL or a single character string; only the first element is used")
+  if (!is.null(collapse) && !is_string(collapse)) {
+    stop("`collapse` must be NULL or a single string")
   }
 
   dots <- list(...)
+
   if (length(dots) == 0) {
     return(character())
   }
 
-  # check which of ... args is the longest
-  long_arg <- which.max(lengths(dots))
+  # ignore NULL values
+  dots <- dots[!vapply(dots, is.null, logical(1L), USE.NAMES = FALSE)]
+
+  # return zero length character if any input is of zero length
+  dots_lengths <- lengths(dots)
+
+  if (any(dots_lengths == 0)) {
+    if (all(dots_lengths == 0 | dots_lengths == 1)) return(character())
+  }
+
+  # throw error if tidyverse recycling can't be followed
+  dots_max <- max(dots_lengths)
+
+  if (!all(dots_lengths == 1 | dots_lengths == dots_max)) {
+    stop(sprintf("Can't recycle input vectors. They should be of length 1 or length %i.", dots_max))
+  }
 
   # perform the pasting
   out <- paste(..., sep = sep, collapse = collapse, recycle0 = FALSE)
 
   # if any of longest arg == NA, replace output with NA like tidyverse
-  if(any(is.na(dots[[long_arg]]))) {
-    na_index <- which(is.na(dots[[long_arg]]))
+  if(any(is.na(dots[[which.max(dots_lengths)]]))) {
+    na_index <- which(is.na(dots[[which.max(dots_lengths)]]))
     out[na_index] <- NA_character_
   }
   out
