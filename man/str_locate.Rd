@@ -12,7 +12,7 @@ str_locate_all(string, pattern)
 \arguments{
 \item{string}{\verb{character vector} of strings.}
 
-\item{pattern}{\code{character}, a pattern to match. Can be:
+\item{pattern}{\code{string} or \verb{character vector}, pattern(s) to match. Can be:
 \itemize{
 \item A Perl-compatible regular expression (default).
 \item Wrap with \code{perl(ignore_case = TRUE)} to use case-insensitive matching.

@@ -5,6 +5,11 @@ expect_equal(str_detect(c(NA, "a", "b"), "a"), c(NA, TRUE, FALSE))
 expect_equal(str_detect(NA, "x"), NA)
 expect_equal(str_detect(character(), "x"), logical())
 
+# test that vectorised patterns work
+expect_equal(str_detect("ab", c("a", "b", "c")), c(TRUE, TRUE, FALSE))
+expect_equal(str_detect(c("ca", "ab"), c("a", "c")), c(TRUE, FALSE))
+expect_equal(str_detect("ab", c("a", "b", "c"), negate = TRUE), c(FALSE, FALSE, TRUE))
+
 # test that str_detect negation works
 expect_equal(str_detect(c("a", "ab", "abc"), "c", negate = TRUE), c(T, T, F))
 

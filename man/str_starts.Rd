@@ -33,8 +33,8 @@ a POSIX 1003.2 extended regular expression.
 Returns a \verb{logical vector} the same length as \code{string}.
 }
 \description{
-Vectorised over \code{string}, but not \code{pattern} which must be
-a single string (unlike stringr).
+Vectorised over \code{string} and \code{pattern}, though using vectorised
+patterns is relatively slow compared to \code{stringr}.
 }
 \examples{
 fruit <- c("apple", "banana", "pear", "pineapple")

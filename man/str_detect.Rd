@@ -9,7 +9,7 @@ str_detect(string, pattern, negate = FALSE)
 \arguments{
 \item{string}{\verb{character vector} of strings.}
 
-\item{pattern}{\code{character}, a pattern to match. Can be:
+\item{pattern}{\code{string} or \verb{character vector}, pattern(s) to match. Can be:
 \itemize{
 \item A Perl-compatible regular expression (default).
 \item Wrap with \code{perl(ignore_case = TRUE)} to use case-insensitive matching.
@@ -26,9 +26,10 @@ a POSIX 1003.2 extended regular expression.
 Returns a \verb{logical vector} the same length as \code{string}.
 }
 \description{
-Vectorised over \code{string}, but not \code{pattern} which must be
-a single string (unlike stringr). Equivalent to \code{grepl(pattern, x)}. See
-\code{str_which()} for an equivalent to \code{grep(pattern, x)}.
+Vectorised over \code{string} and \code{pattern}, though using vectorised
+patterns is relatively slow compared to \code{stringr}.
+Equivalent to \code{grepl(pattern, x)}.
+See \code{str_which()} for an equivalent to \code{grep(pattern, x)}.
 }
 \examples{
 fruit <- c("apple", "banana", "pear", "pineapple")
@@ -37,6 +38,9 @@ str_detect(fruit, "^a")
 str_detect(fruit, "a$")
 str_detect(fruit, "b")
 str_detect(fruit, "[aeiou]")
+
+# Also vectorised over pattern
+str_detect("aecfg", letters)
 
 # Returns TRUE if the pattern do NOT match
 str_detect(fruit, "^p", negate = TRUE)
