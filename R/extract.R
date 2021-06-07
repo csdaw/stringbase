@@ -24,7 +24,7 @@
 #'
 #' @export
 str_extract <- function(string, pattern) {
-  check_pattern(pattern)
+  check_lengths(string, pattern)
 
   out <- rep(NA, length(string))
   r <- regexpr(
@@ -77,7 +77,7 @@ str_extract <- function(string, pattern) {
 #'
 #' @export
 str_extract_all <- function(string, pattern, simplify = FALSE) {
-  check_pattern(pattern)
+  check_lengths(string, pattern)
 
   m <- regmatches(
     string,

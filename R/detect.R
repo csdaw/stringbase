@@ -40,9 +40,9 @@ str_detect <- function(string, pattern, negate = FALSE) {
     out <- mapply(
       function(p, s) {
         grepl(p, s,
-              fixed = is_fixed(pat),
-              perl = is_perl(pat),
-              ignore.case = ignore_case(pat))
+              fixed = is_fixed(p),
+              perl = is_perl(p),
+              ignore.case = ignore_case(p))
       },
       pattern,
       string,
