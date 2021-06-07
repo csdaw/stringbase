@@ -28,8 +28,8 @@ postion of match, and second column gives end position. For
 \code{str_locate_all()} a \code{list} of integer matrices.
 }
 \description{
-Vectorised over \code{string} but not \code{pattern} which must be
-a single string (unlike stringr). If the match is of length
+Vectorised over \code{string} and \code{pattern}, though using vectorised
+patterns is relatively slow compared to \code{stringr}. If the match is of length
 0, (e.g. from a special match like \code{$}) end will be one character less
 than start.
 }
@@ -38,6 +38,7 @@ fruit <- c("apple", "banana", "pear", "pineapple")
 str_locate(fruit, "$")
 str_locate(fruit, "a")
 str_locate(fruit, "e")
+str_locate("apple", c("a", "b", "p", "p"))
 
 str_locate_all(fruit, "a")
 str_locate_all(fruit, "e")

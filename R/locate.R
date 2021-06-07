@@ -15,8 +15,8 @@ location <- function(x, all = FALSE) {
 
 #' Locate the position of patterns in a string
 #'
-#' @description Vectorised over `string` but not `pattern` which must be
-#' a single string (unlike stringr). If the match is of length
+#' @description Vectorised over `string` and `pattern`, though using vectorised
+#' patterns is relatively slow compared to `stringr`. If the match is of length
 #' 0, (e.g. from a special match like `$`) end will be one character less
 #' than start.
 #'
@@ -32,6 +32,7 @@ location <- function(x, all = FALSE) {
 #' str_locate(fruit, "$")
 #' str_locate(fruit, "a")
 #' str_locate(fruit, "e")
+#' str_locate("apple", c("a", "b", "p", "p"))
 #'
 #' str_locate_all(fruit, "a")
 #' str_locate_all(fruit, "e")
@@ -40,25 +41,57 @@ location <- function(x, all = FALSE) {
 #' str_locate_all(fruit, "")
 #' @export
 str_locate <- function(string, pattern) {
-  check_pattern(pattern)
+  check_lengths(string, pattern)
 
-  out <- regexpr(pattern, string,
-                 fixed = is_fixed(pattern),
-                 perl = is_perl(pattern),
-                 ignore.case = ignore_case(pattern)
-  )
+  if (length(pattern) > 1) {
+    out <- mapply(
+      function(p, s) {
+        regexpr(p, s,
+                fixed = is_fixed(p),
+                perl = is_perl(p),
+                ignore.case = ignore_case(p))
+      },
+      pattern,
+      string,
+      SIMPLIFY = FALSE,
+      USE.NAMES = FALSE
+    )
+    do.call(rbind, lapply(out, location))
 
-  location(out)
+  } else {
+    out <- regexpr(pattern, string,
+                   fixed = is_fixed(pattern),
+                   perl = is_perl(pattern),
+                   ignore.case = ignore_case(pattern))
+    location(out)
+  }
 }
 
 #' @rdname str_locate
 #' @export
 str_locate_all <- function(string, pattern) {
-  out <- gregexpr(pattern, string,
-                  fixed = is_fixed(pattern),
-                  perl = is_perl(pattern),
-                  ignore.case = ignore_case(pattern)
-  )
+  check_lengths(string, pattern)
 
-  lapply(out, location, all = TRUE)
+  if (length(pattern) > 1) {
+    out <- mapply(
+      function(p, s) {
+        gregexpr(p, s,
+                 fixed = is_fixed(p),
+                 perl = is_perl(p),
+                 ignore.case = ignore_case(p))
+      },
+      pattern,
+      string,
+      SIMPLIFY = TRUE,
+      USE.NAMES = FALSE
+    )
+    lapply(out, function(x) do.call(rbind, lapply(x, location, all = TRUE)))
+
+  } else {
+    out <- gregexpr(pattern, string,
+                    fixed = is_fixed(pattern),
+                    perl = is_perl(pattern),
+                    ignore.case = ignore_case(pattern))
+    lapply(out, location, all = TRUE)
+  }
 }
