@@ -59,8 +59,14 @@ str_sub(x, 3, 3)
 str_sub(x, 2, -2)
 ```
 
+You can also use `str_sub()` to modify strings:
 Unlike `stringr` you can't use `str_sub()` to modify strings. It is probably
 easier to use `sub()`/`gsub()` instead.
+
+```{r}
+# str_sub(x, 3, 3) <- "X"
+# x
+```
 
 To duplicate individual strings, you can use `str_dup()`:
 
