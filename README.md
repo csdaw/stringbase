@@ -22,8 +22,15 @@ Builds upon [hadley/stringb](https://github.com/hadley/stringb) and
 
 ## To do
 
-1.  `str_flatten()`
-2.  `str_replace()` and `str_replace_all()`
-3.  `str_trim()`
-4.  `str_match()`
-5.  etc…
+-   `invert_match` in `R/locate.R`
+-   `str_flatten()`
+-   `str_replace()` and `str_replace_all()`
+-   `str_trim()`
+-   `str_match()`
+-   etc…
+-   Add `ignore_case` argument to `fixed()`? (see stringr test-detect.R)
+
+## Differences compared with stringr
+
+-   `str_sub()` replacement form is far more limited compared with
+    stringr
