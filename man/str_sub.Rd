@@ -67,7 +67,7 @@ str_sub(hw, end = seq_len(nchar(hw)))
 
 # Replacement form
 # (Limited support, substring length must match replacement length and
-# only one replacement can be made per string. I')
+# only one replacement can be made per string.)
 test <- c("red", "orange", "green", "blue")
 str_sub(test, 1, 3) <- "333"
 test
@@ -75,9 +75,5 @@ test
 test2 <- c("Africa", "Asia", "Australia")
 str_sub(test2, -2) <- "z"
 test2
-
-test3 <- c("AAA", "BBB", "CCC", "DDD")
-str_sub(test3, c(1, 3)) <- c("1", "3")
-test3
 
 }

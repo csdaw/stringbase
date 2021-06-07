@@ -49,7 +49,7 @@
 #'
 #' # Replacement form
 #' # (Limited support, substring length must match replacement length and
-#' # only one replacement can be made per string. I')
+#' # only one replacement can be made per string.)
 #' test <- c("red", "orange", "green", "blue")
 #' str_sub(test, 1, 3) <- "333"
 #' test
@@ -58,12 +58,14 @@
 #' str_sub(test2, -2) <- "z"
 #' test2
 #'
-#' test3 <- c("AAA", "BBB", "CCC", "DDD")
-#' str_sub(test3, c(1, 3)) <- c("1", "3")
-#' test3
-#'
 #' @export
 str_sub <- function(string, start = 1L, end = 1000000L) {
+  if(missing(end)) {
+    vec_size_common(string, start)
+  } else {
+    vec_size_common(string, start, end)
+  }
+
   if (is.matrix(start)) {
     end <- start[, 2]
     start <- start[, 1]
@@ -90,6 +92,12 @@ str_sub <- function(string, start = 1L, end = 1000000L) {
 #' @export
 #' @rdname str_sub
 "str_sub<-" <- function(string, start = 1L, end = 1000000L, value) {
+  if(missing(end)) {
+    vec_size_common(string, start)
+  } else {
+    vec_size_common(string, start, end)
+  }
+
   if (is.matrix(start)) {
     end <- start[, 2]
     start <- start[, 1]

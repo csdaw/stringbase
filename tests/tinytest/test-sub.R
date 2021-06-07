@@ -55,3 +55,11 @@ expect_error(str_sub("test", NA, NA),
              "missing value where TRUE/FALSE needed")
 expect_error(str_sub(c(NA, "test"), NA, NA),
              "missing value where TRUE/FALSE needed")
+
+# test that (limited) replacement works
+x <- "BBCDEF"
+str_sub(x, 1, 1) <- "A"
+expect_equal(x, "ABCDEF")
+
+str_sub(x, -1, -1) <- "K"
+expect_equal(x, "ABCDEK")
