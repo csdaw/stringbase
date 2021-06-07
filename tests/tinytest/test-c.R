@@ -36,11 +36,11 @@ expect_error(
 
 expect_error(
   str_c(letters, collapse = c("a", "b")),
-  "`collapse` must be a single string"
+  "`collapse` must be NULL or a single string"
 )
 
 
 expect_error(
   str_c(c("x", "y", "z"), "a", collapse = character()),
-  "`collapse` must be a single string"
+  "`collapse` must be NULL or a single string"
 )
