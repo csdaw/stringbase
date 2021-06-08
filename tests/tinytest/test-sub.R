@@ -51,11 +51,6 @@ expect_equal(str_sub(NA), NA_character_)
 expect_equal(str_sub(NA, 1, 3), NA_character_)
 expect_equal(str_sub(c(NA, "NA"), 1, 3), c(NA, "NA"))
 
-expect_error(str_sub("test", NA, NA),
-             "missing value where TRUE/FALSE needed")
-expect_error(str_sub(c(NA, "test"), NA, NA),
-             "missing value where TRUE/FALSE needed")
-
 # test that (limited) replacement works
 x <- "BBCDEF"
 str_sub(x, 1, 1) <- "A"

@@ -60,63 +60,61 @@
 #'
 #' @export
 str_sub <- function(string, start = 1L, end = 1000000L) {
-  if(missing(end)) {
-    vec_size_common(string, start)
-  } else {
-    vec_size_common(string, start, end)
-  }
-
   if (is.matrix(start)) {
     end <- start[, 2]
     start <- start[, 1]
   }
 
-  if (!any(start < 0) & !any(end < 0)) {
-    substring(string, start, end)
+  if(!missing(end) | is.matrix(start)) {
+    vec_size_common(string, start, end)
   } else {
-    # argument recycling
-    n <- max(length(string), length(start), length(end))
-    string <- rep_len(string, n)
-    start <- rep_len(start, n)
-    end <- rep_len(end, n)
-
-    # dealing with negative integers
-    nchars <- nchar(string)
-    start[start < 0] <- nchars[start < 0] + 1 + start[start < 0]
-    end[end < 0] <- nchars[end < 0] + 1 + end[end < 0]
-
-    substring(string, start, end)
+    vec_size_common(string, start)
   }
+
+  if (all(!is.na(string), !is.na(start), !is.na(end))) {
+    if (any(start < 0) | any(end < 0)) {
+      # argument recycling
+      n <- max(length(string), length(start), length(end))
+      string <- rep_len(string, n)
+      start <- rep_len(start, n)
+      end <- rep_len(end, n)
+
+      # dealing with negative integers
+      nchars <- nchar(string)
+      start[start < 0] <- nchars[start < 0] + 1 + start[start < 0]
+      end[end < 0] <- nchars[end < 0] + 1 + end[end < 0]
+    }
+  }
+  substring(string, start, end)
 }
 
 #' @export
 #' @rdname str_sub
 "str_sub<-" <- function(string, start = 1L, end = 1000000L, value) {
-  if(missing(end)) {
-    vec_size_common(string, start)
-  } else {
-    vec_size_common(string, start, end)
-  }
-
   if (is.matrix(start)) {
     end <- start[, 2]
     start <- start[, 1]
   }
 
-  if (!any(start < 0) & !any(end < 0)) {
-    "substring<-"(string, start, end, value)
+  if(!missing(end) | is.matrix(start)) {
+    vec_size_common(string, start, end)
   } else {
-    # argument recycling
-    n <- max(length(string), length(start), length(end))
-    string <- rep_len(string, n)
-    start <- rep_len(start, n)
-    end <- rep_len(end, n)
-
-    # dealing with negative integers
-    nchars <- nchar(string)
-    start[start < 0] <- nchars[start < 0] + 1 + start[start < 0]
-    end[end < 0] <- nchars[end < 0] + 1 + end[end < 0]
-
-    "substring<-"(string, start, end, value)
+    vec_size_common(string, start)
   }
+
+  if (all(!is.na(string), !is.na(start), !is.na(end))) {
+    if (any(start < 0) | any(end < 0)) {
+      # argument recycling
+      n <- max(length(string), length(start), length(end))
+      string <- rep_len(string, n)
+      start <- rep_len(start, n)
+      end <- rep_len(end, n)
+
+      # dealing with negative integers
+      nchars <- nchar(string)
+      start[start < 0] <- nchars[start < 0] + 1 + start[start < 0]
+      end[end < 0] <- nchars[end < 0] + 1 + end[end < 0]
+    }
+  }
+  "substring<-"(string, start, end, value)
 }
