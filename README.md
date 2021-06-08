@@ -22,13 +22,13 @@ Builds upon [hadley/stringb](https://github.com/hadley/stringb) and
 
 ## To do
 
--   `invert_match` in `R/locate.R`
--   `str_flatten()`
--   `str_replace()` and `str_replace_all()`
--   `str_trim()`
--   `str_match()`
--   etc…
--   Add `ignore_case` argument to `fixed()`? (see stringr test-detect.R)
+1.  `invert_match` in `R/locate.R`
+2.  `str_flatten()`
+3.  `str_replace()` and `str_replace_all()`
+4.  `str_trim()`
+5.  `str_match()`
+6.  etc…
+7.  Add `ignore_case` argument to `fixed()`? (see stringr test-detect.R)
 
 ## Differences compared with stringr
 
