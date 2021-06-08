@@ -109,7 +109,7 @@ str_locate_all <- function(string, pattern) {
 #' and_loc <- str_locate_all(numbers, "and")[[1]]
 #' str_sub(numbers, and_loc[, "start"], and_loc[, "end"])
 #'
-#' num_loc <- invert_match(num_loc)
+#' num_loc <- invert_match(and_loc)
 #' str_sub(numbers, num_loc[, "start"], num_loc[, "end"])
 invert_match <- function(loc) {
   cbind(
