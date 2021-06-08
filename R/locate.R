@@ -95,3 +95,25 @@ str_locate_all <- function(string, pattern) {
     lapply(out, location, all = TRUE)
   }
 }
+
+#' Switch location of matches to location of non-matches.
+#'
+#' @description Invert a matrix of match locations to match the opposite of
+#' what was previously matched.
+#'
+#' @param loc `numeric matrix` of match locations, as from [str_locate_all()]
+#' @return Returns a `numeric matrix` giving locations of non-matches.
+#' @export
+#' @examples
+#' numbers <- "1 and 2 and 4 and 456"
+#' and_loc <- str_locate_all(numbers, "and")[[1]]
+#' str_sub(numbers, and_loc[, "start"], and_loc[, "end"])
+#'
+#' num_loc <- invert_match(num_loc)
+#' str_sub(numbers, num_loc[, "start"], num_loc[, "end"])
+invert_match <- function(loc) {
+  cbind(
+    start = c(0L, loc[, "end"] + 1L),
+    end = c(loc[, "start"] - 1L, -1L)
+  )
+}

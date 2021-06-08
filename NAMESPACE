@@ -2,6 +2,7 @@
 
 export("str_sub<-")
 export(fixed)
+export(invert_match)
 export(perl)
 export(regex)
 export(str_c)

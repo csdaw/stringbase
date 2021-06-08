@@ -14,7 +14,7 @@ expect_true(is.integer(str_locate(strings, "a")))
 
 res <- stringr::str_locate_all(strings, "a")[[1]]
 expect_true(is.integer(res))
-#expect_true(is.integer(invert_match(res)))
+expect_true(is.integer(invert_match(res)))
 
 # test that string is properly vectorised
 strings <- c("abca", "defaa")

@@ -17,18 +17,17 @@ Builds upon [hadley/stringb](https://github.com/hadley/stringb) and
 -   `str_c()`
 -   `str_detect()`, `str_starts()`, `str_ends()`
 -   `str_extract()`, `str_extract_all()`
--   `str_locate()`, `str_locate_all()`
+-   `str_locate()`, `str_locate_all()`, `invert_match()`
 -   `str_sub()`
 
 ## To do
 
-1.  `invert_match` in `R/locate.R`
-2.  `str_flatten()`
-3.  `str_replace()` and `str_replace_all()`
-4.  `str_trim()`
-5.  `str_match()`
-6.  etc…
-7.  Add `ignore_case` argument to `fixed()`? (see stringr test-detect.R)
+1.  `str_flatten()`
+2.  `str_replace()` and `str_replace_all()`
+3.  `str_trim()`
+4.  `str_match()`
+5.  etc…
+6.  Add `ignore_case` argument to `fixed()`? (see stringr test-detect.R)
 
 ## Differences compared with stringr
 
