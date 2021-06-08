@@ -32,7 +32,6 @@ Builds upon [hadley/stringb](https://github.com/hadley/stringb) and
 
 ## To do
 
-1. `str_flatten()`
 1. `str_replace()` and `str_replace_all()`
 1. `str_trim()`
 1. `str_match()`

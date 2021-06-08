@@ -22,12 +22,11 @@ Builds upon [hadley/stringb](https://github.com/hadley/stringb) and
 
 ## To do
 
-1.  `str_flatten()`
-2.  `str_replace()` and `str_replace_all()`
-3.  `str_trim()`
-4.  `str_match()`
-5.  etc…
-6.  Add `ignore_case` argument to `fixed()`? (see stringr test-detect.R)
+1.  `str_replace()` and `str_replace_all()`
+2.  `str_trim()`
+3.  `str_match()`
+4.  etc…
+5.  Add `ignore_case` argument to `fixed()`? (see stringr test-detect.R)
 
 ## Differences compared with stringr
 

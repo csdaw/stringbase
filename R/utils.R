@@ -55,3 +55,46 @@ vec_size_common <- function(string, start, end = NULL) {
     max_length
   }
 }
+
+#' Increasing sequence of integers in an interval
+#'
+#' @description These helpers take two endpoints and return the sequence of all
+#' integers within that interval. For `seq2_along()`, the upper
+#' endpoint is taken from the length of a vector. Unlike
+#' `base::seq()`, they return an empty vector if the starting point is
+#' a larger integer than the end point.
+#'
+#' @param from `integer`, the starting point of the sequence.
+#' @param to `integer`, the end point.
+#' @param x A `vector` whose length is the end point.
+#' @return Returns an `integer vector` containing a strictly increasing
+#'   sequence.
+#' @keywords internal
+#' @export
+#' @examples
+#' seq2(2, 10)
+#' seq2(10, 2)
+#' seq(10, 2)
+#'
+#' seq2_along(10, letters)
+seq2 <- function(from, to) {
+  if (length(from) != 1) {
+    stop("`from` must be length one")
+  }
+  if (length(to) != 1) {
+    stop("`to` must be length one")
+  }
+
+  if (from > to) {
+    integer()
+  } else {
+    seq.int(from, to)
+  }
+}
+
+#' @rdname seq2
+#' @keywords internal
+#' @export
+seq2_along <- function(from, x) {
+  seq2(from, length(x))
+}
