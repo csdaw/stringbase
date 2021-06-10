@@ -1,5 +1,9 @@
 is_string <- function(x) is.character(x) && length(x) == 1
 
+is_formula <- function(x) is.call(x) && x[[1]] == quote(`~`)
+
+is_replacement_fun <- function(x) is.function(x) || is_formula(x)
+
 check_lengths <- function(string, pattern, replacement = NULL) {
   if (!is.null(replacement)) {
     input <- list(string, pattern, replacement)
