@@ -24,7 +24,7 @@
 #' any of the arguments provided will result in an unchanged input.
 #' @param value replacement `string`
 #' @return Returns a `character vector` of substring(s) from `start` to `end`
-#' (inclusive). Will be length of longest input argument.
+#' (inclusive). Will be the length of longest input argument.
 #' @examples
 #' hw <- "Hadley Wickham"
 #'

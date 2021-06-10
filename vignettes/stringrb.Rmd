@@ -64,8 +64,8 @@ Unlike `stringr` you can't use `str_sub()` to modify strings. It is probably
 easier to use `sub()`/`gsub()` instead.
 
 ```{r}
-# str_sub(x, 3, 3) <- "X"
-# x
+str_sub(x, 3, 3) <- "X"
+x
 ```
 
 To duplicate individual strings, you can use `str_dup()`:
@@ -221,8 +221,8 @@ phone <- "([2-9][0-9]{2})[- .]([0-9]{3})[- .]([0-9]{4})"
     ```{r}
     # What are the phone numbers?
     str_extract(strings, phone)
-    # str_extract_all(strings, phone)
-    # str_extract_all(strings, phone, simplify = TRUE)
+    str_extract_all(strings, phone)
+    str_extract_all(strings, phone, simplify = TRUE)
     ```
 
 -   `str_match()` extracts capture groups formed by `()` from the **first** 
@@ -242,8 +242,8 @@ phone <- "([2-9][0-9]{2})[- .]([0-9]{3})[- .]([0-9]{4})"
     `sub()` and `gsub()`.
 
     ```{r}
-    # str_replace(strings, phone, "XXX-XXX-XXXX")
-    # str_replace_all(strings, phone, "XXX-XXX-XXXX")
+    str_replace(strings, phone, "XXX-XXX-XXXX")
+    str_replace_all(strings, phone, "XXX-XXX-XXXX")
     ```
 
 -   `str_split_fixed()` splits a string into a **fixed** number of pieces based 
@@ -321,10 +321,10 @@ It's most useful with `str_split()`, but can be used with all pattern matching
 functions:
 
 ```{r}
-# x <- "This is a sentence."
+#x <- "This is a sentence."
 # str_split(x, boundary("word"))
 # str_count(x, boundary("word"))
-# str_extract_all(x, boundary("word"))
+#str_extract_all(x, boundary("word"))
 ```
 
 By convention, `""` is treated as `boundary("character")`:

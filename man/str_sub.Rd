@@ -27,7 +27,7 @@ any of the arguments provided will result in an unchanged input.}
 }
 \value{
 Returns a \verb{character vector} of substring(s) from \code{start} to \code{end}
-(inclusive). Will be length of longest input argument.
+(inclusive). Will be the length of longest input argument.
 }
 \description{
 \code{str_sub} will recycle all arguments to be the same length as the

@@ -177,7 +177,7 @@ There are five other escaped pairs that match narrower classes of characters:
     is not a decimal digit.
 
     ```{r}
-    #str_extract_all("1 + 2 = 3", "\\d+")[[1]]
+    str_extract_all("1 + 2 = 3", "\\d+")[[1]]
     ```
 
     Technically, `\d` includes any character in the Unicode Category of Nd 
@@ -196,7 +196,7 @@ There are five other escaped pairs that match narrower classes of characters:
     
     ```{r}
     (text <- "Some  \t badly\n\t\tspaced \f text")
-    #str_replace_all(text, "\\s+", " ")
+    str_replace_all(text, "\\s+", " ")
     ```
 
 *   `\p{property name}` matches any character with specific unicode property,
@@ -215,7 +215,7 @@ There are five other escaped pairs that match narrower classes of characters:
     character.
     
     ```{r}
-    #str_extract_all("Don't eat that!", "\\w+")[[1]]
+    str_extract_all("Don't eat that!", "\\w+")[[1]]
     #str_split("Don't eat that!", "\\W")[[1]]
     ```
     
@@ -228,8 +228,8 @@ There are five other escaped pairs that match narrower classes of characters:
     word or non-word characters on either side.
     
     ```{r}
-    #str_replace_all("The quick brown fox", "\\b", "_")
-    #str_replace_all("The quick brown fox", "\\B", "_")
+    str_replace_all("The quick brown fox", "\\b", "_")
+    str_replace_all("The quick brown fox", "\\B", "_")
     ```
 
 You can also create your own __character classes__ using `[]`:
@@ -343,7 +343,7 @@ behaviour of `^` and `$`, and introduces three new operators:
 
 ```{r}
 x <- "Line 1\nLine 2\nLine 3\n"
-#str_extract_all(x, "^Line..")[[1]]
+str_extract_all(x, "^Line..")[[1]]
 #str_extract_all(x, regex("^Line..", multiline = TRUE))[[1]]
 #str_extract_all(x, regex("\\ALine..", multiline = TRUE))[[1]]
 ```
