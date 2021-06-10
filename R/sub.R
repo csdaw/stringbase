@@ -132,6 +132,10 @@ str_sub <- function(string, start = 1L, end = 1000000L) {
   if (any(is.na(start), is.na(end), is.na(value))) {
     # argument recycling
     n <- max(length(string), length(start), length(end), length(value))
+    string <- rep_len(string, n)
+    start <- rep_len(start, n)
+    end <- rep_len(end, n)
+    value <- rep_len(value, n)
 
     if (any(is.na(value))) {
       # `substring<-` errors if value is NA so we have to deal with this separately
