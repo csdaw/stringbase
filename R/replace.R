@@ -171,6 +171,7 @@ str_transform_all <- function(string, pattern, replacement) {
 #' @examples
 #' str_replace_na(c(NA, "abc", "def"))
 str_replace_na <- function(string, replacement = "NA") {
+  if (!is_string(replacement)) stop("`replacement` must be a single string")
   string[is.na(string)] <- replacement
   string
 }
