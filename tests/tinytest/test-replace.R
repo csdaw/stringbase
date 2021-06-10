@@ -42,18 +42,18 @@ expect_equal(y, c("11", "22", "c3"))
 # test that multiple matches respects class
 x <- c("x", "y")
 y <- str_replace_all(x, regex(c("X" = "a"), ignore_case = TRUE))
-#expect_equal(y, c("a", "y"))
+expect_equal(y, c("a", "y"))
 
 # test that replacement must be a string
-#expect_error(str_replace("x", "x", 1), "must be a character vector")
+expect_error(str_replace("x", "x", 1), "must be a string or character vector")
 expect_equal(str_replace("xyz", "x", NA_character_), NA_character_)
 
 # that that one can replace all types of NA values
-#expect_equal(str_replace_na(NA), "NA")
-#expect_equal(str_replace_na(NA_character_), "NA")
-#expect_equal(str_replace_na(NA_complex_), "NA")
-#expect_equal(str_replace_na(NA_integer_), "NA")
-#expect_equal(str_replace_na(NA_real_), "NA")
+expect_equal(str_replace_na(NA), "NA")
+expect_equal(str_replace_na(NA_character_), "NA")
+expect_equal(str_replace_na(NA_complex_), "NA")
+expect_equal(str_replace_na(NA_integer_), "NA")
+expect_equal(str_replace_na(NA_real_), "NA")
 
 # functions --------------------------------------------------------------------
 

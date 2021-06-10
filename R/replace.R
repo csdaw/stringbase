@@ -75,6 +75,9 @@ str_replace <- function(string, pattern, replacement) {
     return(str_transform(string, pattern, replacement))
   }
 
+  if (!is.character(pattern)) stop("`pattern` must be a string or character vector")
+  if (!is.character(replacement)) stop("`replacement` must be a string or character vector")
+
   check_lengths(string, pattern)
 
   if (length(replacement) > 1 | length(pattern) > 1) {
@@ -113,16 +116,26 @@ str_replace_all <- function(string, pattern, replacement) {
     return(str_transform_all(string, pattern, replacement))
   }
 
+
+  if (!is.character(pattern)) stop("`pattern` must be a string or character vector")
+  if (!missing(replacement) && !is.character(replacement)) stop("`replacement` must be a string or character vector")
+
   if (!is.null(names(pattern))) {
     replacement <- unname(pattern)
     pattern[] <- names(pattern)
-    return(Reduce(function(x, i) gsub(paste0(pattern[i]), replacement[i], x), seq_along(pattern), string))
+    return(Reduce(function(x, i) {
+      gsub(
+        pattern = paste0(pattern[i]), replacement = replacement[i], x = x,
+        fixed = is_fixed(pattern),
+        perl = is_perl(pattern),
+        ignore.case = ignore_case(pattern)
+      )
+    }, seq_along(pattern), string))
   } else {
     check_lengths(string, pattern, replacement)
   }
 
   if (length(replacement) > 1 | length(pattern) > 1) {
-    print("here")
     mapply(gsub, replacement = replacement, x = string, pattern = pattern, USE.NAMES = FALSE)
   } else {
     gsub(
@@ -147,5 +160,17 @@ str_transform_all <- function(string, pattern, replacement) {
       str_sub(string[[i]], loc[j, 1], loc[j, 2]) <- replacement(str_sub(string[[i]], loc[j, 1], loc[j, 2]))
     }
   }
+  string
+}
+
+#' Turn NA into "NA"
+#'
+#' @inheritParams str_replace
+#' @param replacement a single `string`.
+#' @export
+#' @examples
+#' str_replace_na(c(NA, "abc", "def"))
+str_replace_na <- function(string, replacement = "NA") {
+  string[is.na(string)] <- replacement
   string
 }
