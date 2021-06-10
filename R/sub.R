@@ -20,6 +20,8 @@
 #' output of `str_locate_all()`.
 #' @param end `integer vector` giving the position(s) of the last character,
 #' default is `1000000L`. Negative values count backwards from the last character.
+#' @param omit_na `logical`, default is `FALSE`, If `TRUE`, missing values in
+#' any of the arguments provided will result in an unchanged input.
 #' @param value replacement `string`
 #' @return Returns a `character vector` of substring(s) from `start` to `end`
 #' (inclusive). Will be length of longest input argument.
@@ -58,6 +60,16 @@
 #' str_sub(test2, -2) <- "z"
 #' test2
 #'
+#' # If you want to keep the original string if some argument is NA,
+#' # use omit_na = TRUE
+#'
+#' x1 <- x2 <- x3 <- x4 <- "AAA"
+#' str_sub(x1, 1, NA) <- "B"
+#' str_sub(x2, 1, 2) <- NA
+#' str_sub(x3, 1, NA, omit_na = TRUE) <- "B"
+#' str_sub(x4, 1, 2, omit_na = TRUE) <- NA
+#' x1; x2; x3; x4
+#'
 #' @export
 str_sub <- function(string, start = 1L, end = 1000000L) {
   if (is.matrix(start)) {
@@ -90,7 +102,7 @@ str_sub <- function(string, start = 1L, end = 1000000L) {
 
 #' @export
 #' @rdname str_sub
-"str_sub<-" <- function(string, start = 1L, end = 1000000L, value) {
+"str_sub<-" <- function(string, start = 1L, end = 1000000L, omit_na = FALSE, value) {
   if (is.matrix(start)) {
     end <- start[, 2]
     start <- start[, 1]
@@ -116,5 +128,27 @@ str_sub <- function(string, start = 1L, end = 1000000L) {
       end[end < 0] <- nchars[end < 0] + 1 + end[end < 0]
     }
   }
-  "substring<-"(string, start, end, value)
+
+  if (any(is.na(start), is.na(end), is.na(value))) {
+    # argument recycling
+    n <- max(length(string), length(start), length(end), length(value))
+
+    if (any(is.na(value))) {
+      # `substring<-` errors if value is NA so we have to deal with this separately
+      out <- character(length = n)
+      repl <- `substring<-`(string[!is.na(value)],
+                            start[!is.na(value)],
+                            end[!is.na(value)],
+                            value[!is.na(value)])
+      out[is.na(value)] <- ifelse(omit_na, string[is.na(value)], NA)
+      out[!is.na(value)] <- repl
+    } else {
+      # `substring<-` can deal with NA start and end though
+      out <- `substring<-`(string, start, end, value)
+      if (omit_na) out[is.na(start) | is.na(end)] <- string[is.na(start) | is.na(end)]
+    }
+  } else {
+    out <- "substring<-"(string, start, end, value)
+  }
+  out
 }

@@ -7,7 +7,7 @@
 \usage{
 str_sub(string, start = 1L, end = 1000000L)
 
-str_sub(string, start = 1L, end = 1000000L) <- value
+str_sub(string, start = 1L, end = 1000000L, omit_na = FALSE) <- value
 }
 \arguments{
 \item{string}{\verb{character vector} of strings.}
@@ -19,6 +19,9 @@ output of \code{str_locate_all()}.}
 
 \item{end}{\verb{integer vector} giving the position(s) of the last character,
 default is \code{1000000L}. Negative values count backwards from the last character.}
+
+\item{omit_na}{\code{logical}, default is \code{FALSE}, If \code{TRUE}, missing values in
+any of the arguments provided will result in an unchanged input.}
 
 \item{value}{replacement \code{string}}
 }
@@ -75,5 +78,15 @@ test
 test2 <- c("Africa", "Asia", "Australia")
 str_sub(test2, -2) <- "z"
 test2
+
+# If you want to keep the original string if some argument is NA,
+# use omit_na = TRUE
+
+x1 <- x2 <- x3 <- x4 <- "AAA"
+str_sub(x1, 1, NA) <- "B"
+str_sub(x2, 1, 2) <- NA
+str_sub(x3, 1, NA, omit_na = TRUE) <- "B"
+str_sub(x4, 1, 2, omit_na = TRUE) <- NA
+x1; x2; x3; x4
 
 }

@@ -58,3 +58,14 @@ expect_equal(x, "ABCDEF")
 
 str_sub(x, -1, -1) <- "K"
 expect_equal(x, "ABCDEK")
+
+# test that replacement with NA works
+x <- "BBCDEF"
+str_sub(x, NA) <- "A"
+expect_equal(x, NA_character_)
+
+x <- "BBCDEF"
+str_sub(x, NA, omit_na = TRUE) <- "A"
+str_sub(x, 1, 1, omit_na = TRUE) <- NA
+expect_equal(x, "BBCDEF")
+
