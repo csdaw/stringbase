@@ -20,15 +20,16 @@ Builds upon [hadley/stringb](https://github.com/hadley/stringb) and
 -   `str_locate()`, `str_locate_all()`, `invert_match()`
 -   `str_replace()`, `str_replace_all()`, `str_replace_na()`
 -   `str_sub()`
+-   `str_trim()`, `str_squish()`
 
 ## To do
 
-1.  `str_trim()`
-2.  `str_match()`
-3.  etc…
-4.  Add `ignore_case` argument to `fixed()`? (see stringr test-detect.R)
+1.  `str_match()`
+2.  etc…
+3.  Add `ignore_case` argument to `fixed()`? (see stringr test-detect.R)
 
 ## Differences compared with stringr
 
+-   Generally slower, though this varies across each function
 -   Using `str_sub()` replacement form with functions is more limited
 -   `str_replace()` and `str_replace_all()` won’t work with formulas
