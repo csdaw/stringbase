@@ -36,7 +36,7 @@ str_extract <- function(string, pattern) {
     useBytes = FALSE
   )
 
-  out[r != -1] <- regmatches(string, r)
+  out[!r %in% c(-1, NA)] <- regmatches(string, r)
   out
 }
 

@@ -9,6 +9,11 @@ expect_equal(word_1_to_4[1], NA_character_)
 expect_equal(str_extract(c(NA, "", "x"), "x"),
              c(NA, NA, "x"))
 
+# test that str_extract() truly handles NA
+string <- c("<a> <b>", "<a> <>", "<a>", "", NA)
+expect_equal(str_extract(string, "<.*?>"),
+             c("<a>", "<a>", "<a>", NA, NA))
+
 # test that tidyverse recycling rules are used
 expect_error(str_extract(c("a", "b"), c("a", "b", "c")))
 expect_error(str_extract_all(c("a", "b"), c("a", "b", "c")))
