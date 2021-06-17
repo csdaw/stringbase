@@ -75,10 +75,12 @@ str_match <- function(string, pattern) {
     mat_nrow <- length(string)
     mat_ncol <- if (all(is.na(string))) 2 else max(lengths(out))
   }
-  out_mat <- matrix(NA_character_, nrow = mat_nrow, ncol = mat_ncol)
 
-  for (row in which(lengths(out) != 0)) {
-    out_mat[row, ] <- out[[row]]
+  out_mat <- matrix(NA_character_, nrow = mat_nrow, ncol = mat_ncol)
+  for (i in which(lengths(out) != 0)) {
+    # replace each matrix row with list elements that don't have a
+    # start position == 0 and match.length == 0
+    out_mat[i, ][loc[[i]] != 0 & attr(loc[[i]], "match.length") != 0] <- out[[i]][loc[[i]] != 0 & attr(loc[[i]], "match.length") != 0]
   }
   out_mat
 }

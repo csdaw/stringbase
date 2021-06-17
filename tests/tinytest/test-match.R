@@ -57,9 +57,8 @@ expect_equal(ncol(matches), 4)
 expect_equal(matches[11, ], rep(NA_character_, 4))
 expect_equal(matches[12, ], rep(NA_character_, 4))
 
-# test that match returns empty string when optional group doesn't match
-# This is different to stringr! (which would return NA)
-expect_equal(str_match(c("ab", "a"), "(a)(b)?")[, 3], c("b", ""))
+# test that match returns NA when optional group doesn't match
+expect_equal(str_match(c("ab", "a"), "(a)(b)?")[, 3], c("b", NA_character_))
 
 # test that tidyverse recycling rules are used
 expect_error(str_match(c("a", "b"), c("a", "b", "c")))
