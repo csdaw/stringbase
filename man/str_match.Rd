@@ -2,9 +2,12 @@
 % Please edit documentation in R/match.R
 \name{str_match}
 \alias{str_match}
+\alias{str_match_all}
 \title{Extract matched groups from a string}
 \usage{
 str_match(string, pattern)
+
+str_match_all(string, pattern)
 }
 \arguments{
 \item{string}{\verb{character vector} of strings.}

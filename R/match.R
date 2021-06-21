@@ -84,3 +84,35 @@ str_match <- function(string, pattern) {
   }
   out_mat
 }
+
+#' @rdname str_match
+#' @export
+str_match_all <- function(string, pattern) {
+  if (getRversion() < "4.1") stop("This function requires R >= 4.1.")
+  if (is_fixed(pattern)) stop("Can only match regular expressions")
+
+  loc <- gregexec(
+    pattern = pattern,
+    text = string,
+    ignore.case = ignore_case(pattern),
+    perl = is_perl(pattern),
+    fixed = FALSE
+  )
+  out <- regmatches(string, loc)
+  out
+  mat_ncol <- max(unlist(lapply(loc, nrow)))
+
+  for (i in which(lengths(out) != 0)) {
+    out[[i]][loc[[i]] == 0 & attr(loc[[i]], "match.length") == 0] <- NA_character_
+    out[[i]] <- t(out[[i]])
+  }
+
+  for (i in which(lengths(out) == 0)) {
+    if (i %in% which(is.na(x))) {
+      out[[i]] <- matrix(NA_character_, nrow = 1, ncol = mat_ncol)
+    } else {
+      out[[i]] <- matrix(nrow = 0, ncol = mat_ncol)
+    }
+  }
+  out
+}
