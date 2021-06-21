@@ -80,7 +80,7 @@ str_match <- function(string, pattern) {
   for (i in which(lengths(out) != 0)) {
     # replace each matrix row with list elements that don't have a
     # start position == 0 and match.length == 0
-    out_mat[i, ][loc[[i]] != 0 & attr(loc[[i]], "match.length") != 0] <- out[[i]][loc[[i]] != 0 & attr(loc[[i]], "match.length") != 0]
+    out_mat[i, ][!(loc[[i]] == 0 & attr(loc[[i]], "match.length") == 0)] <- out[[i]][!(loc[[i]] == 0 & attr(loc[[i]], "match.length") == 0)]
   }
   out_mat
 }
