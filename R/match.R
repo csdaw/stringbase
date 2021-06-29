@@ -88,31 +88,16 @@ str_match <- function(string, pattern) {
 #' @rdname str_match
 #' @export
 str_match_all <- function(string, pattern) {
-  if (getRversion() < "4.1") stop("This function requires R >= 4.1.")
-  if (is_fixed(pattern)) stop("Can only match regular expressions")
+  xxx <- gregexpr(pattern, string)
 
-  loc <- gregexec(
-    pattern = pattern,
-    text = string,
-    ignore.case = ignore_case(pattern),
-    perl = is_perl(pattern),
-    fixed = FALSE
-  )
-  out <- regmatches(string, loc)
-  out
-  mat_ncol <- max(unlist(lapply(loc, nrow)))
+  xxx_lengths <- lengths(xxx)
+  xxx_lengths[xxx %in% c(-1)] <- 0
 
-  for (i in which(lengths(out) != 0)) {
-    out[[i]][loc[[i]] == 0 & attr(loc[[i]], "match.length") == 0] <- NA_character_
-    out[[i]] <- t(out[[i]])
-  }
+  yyy <- regmatches(string, xxx)
 
-  for (i in which(lengths(out) == 0)) {
-    if (i %in% which(is.na(x))) {
-      out[[i]] <- matrix(NA_character_, nrow = 1, ncol = mat_ncol)
-    } else {
-      out[[i]] <- matrix(nrow = 0, ncol = mat_ncol)
-    }
-  }
+  zzz <- lapply(yyy, function(m) do.call(rbind, regmatches(m, regexec(pattern, m))))
+
+  out <- lapply(xxx_lengths, function(r) matrix(NA_character_, nrow = r, ncol = max(lengths(zzz))))
+  out[!xxx %in% c(-1, NA)] <- zzz[!xxx %in% c(-1, NA)]
   out
 }
