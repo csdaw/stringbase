@@ -88,16 +88,24 @@ str_match <- function(string, pattern) {
 #' @rdname str_match
 #' @export
 str_match_all <- function(string, pattern) {
-  xxx <- gregexpr(pattern, string)
+  loc1 <- gregexpr(pattern, string)
 
-  xxx_lengths <- lengths(xxx)
-  xxx_lengths[xxx %in% c(-1)] <- 0
+  m1 <- regmatches(string, loc1)
 
-  yyy <- regmatches(string, xxx)
+  out <- lapply(m1, function(s) {
+    loc2 <- regexec(pattern, s)
 
-  zzz <- lapply(yyy, function(m) do.call(rbind, regmatches(m, regexec(pattern, m))))
+    m2 <- regmatches(s, loc2)
+    for (i in which(lengths(m2) != 0)) {
+      m2[[i]][which(loc2[[i]] == 0) & attr(loc2[[i]], "match.length") == 0] <- NA_character_
+    }
 
-  out <- lapply(xxx_lengths, function(r) matrix(NA_character_, nrow = r, ncol = max(lengths(zzz))))
-  out[!xxx %in% c(-1, NA)] <- zzz[!xxx %in% c(-1, NA)]
+    do.call(rbind, m2)
+  })
+  zzz_max_length <- unlist(lapply(out, ncol))
+
+  out[which(is.na(loc1))] <- list(matrix(NA_character_, nrow = 1, ncol = zzz_max_length))
+  out[which(loc1 %in% c(-1))] <- list(matrix(nrow = 0, ncol = zzz_max_length))
   out
 }
+
