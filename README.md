@@ -12,21 +12,49 @@ An imperfect replication of
 Builds upon [hadley/stringb](https://github.com/hadley/stringb) and
 [petermeissner/stringb](https://github.com/petermeissner/stringb).
 
+**Any help writing or speeding up functions is appreciated! Just submit
+a PR.**
+
 ## Completed
 
--   `str_c()`
--   `str_detect()`, `str_starts()`, `str_ends()`
--   `str_extract()`, `str_extract_all()`
--   `str_locate()`, `str_locate_all()`, `invert_match()`
--   `str_replace()`, `str_replace_all()`, `str_replace_na()`
--   `str_sub()`
--   `str_trim()`, `str_squish()`
+1.  `c.R` - `str_c()`
+2.  `detect.R` - `str_detect()`, `str_starts()`, `str_ends()`
+3.  `extract.R` - `str_extract()`, `str_extract_all()`
+4.  `locate.R` - `str_locate()`, `str_locate_all()`, `invert_match()`
+5.  `replace.R` - `str_replace()`, `str_replace_all()`,
+    `str_replace_na()`
+6.  `sub.R` - `str_sub()`
+7.  `trim.R` - `str_trim()`, `str_squish()`
+
+## In development
+
+1.  `match.R` - `str_match()`, `str_match_all()`
+2.  `case.R` - `str_to_upper()`, `str_to_lower()`, `str_to_title()`,
+    `str_to_sentence()`
 
 ## To do
 
-1.  `str_match()`
-2.  etc…
-3.  Add `ignore_case` argument to `fixed()`? (see stringr test-detect.R)
+1.  `count.R` - `str_count()`
+2.  `dup.R` - `str_dup()`
+3.  `length.R` - `str_length()` maybe?
+4.  `pad.R` - `str_pad()`
+5.  `remove.R` - `str_remove()`, `str_remove_all()`
+6.  `sort.R` - `str_order()`, `str_sort()`
+7.  `split.R` - `str_split()`, `str_split_fixed()`, `str_split_n()`
+8.  `subset.R` - `str_subset()`, `str_which()`
+9.  `trunc.R` - `str_trunc()`
+10. `word.R` - `word()`
+11. `wrap.R` - `str_wrap()`
+12. Add `ignore_case` argument to `fixed()`? (see stringr test-detect.R)
+
+## Not planning to do
+
+1.  `conv.R` - `str_conv()`
+2.  `equal.R` - `str_equal()`
+3.  `glue.R` - `str_glue()`, `str_glue_data()`
+4.  `interp.R` - `str_interp()`
+5.  `unique.R` - `str_unique()` maybe?
+6.  `view.R` - `str_view()`
 
 ## Differences compared with stringr
 
