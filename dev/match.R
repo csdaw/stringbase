@@ -38,8 +38,8 @@
 #' str_extract(x, "<.*?>")
 #' str_extract_all(x, "<.*?>")
 str_match <- function(string, pattern) {
-  if (is_fixed(pattern)) stop("Can only match regular expressions")
-  check_lengths(string, pattern)
+  if (stringrb:::is_fixed(pattern)) stop("Can only match regular expressions")
+  stringrb:::check_lengths(string, pattern)
 
   if (length(pattern) > 1) {
     loc <- mapply(
@@ -47,8 +47,8 @@ str_match <- function(string, pattern) {
         regexec(
           text = s,
           pattern = p,
-          ignore.case = ignore_case(pattern),
-          perl = is_perl(pattern),
+          ignore.case = stringrb:::ignore_case(pattern),
+          perl = stringrb:::is_perl(pattern),
           fixed = FALSE
         )
 
@@ -67,13 +67,16 @@ str_match <- function(string, pattern) {
     loc <- regexec(
       pattern = pattern,
       text = string,
-      ignore.case = ignore_case(pattern),
-      perl = is_perl(pattern),
+      ignore.case = stringrb:::ignore_case(pattern),
+      perl = stringrb:::is_perl(pattern),
       fixed = FALSE
     )
     out <- regmatches(string, loc)
+    # out[which(lengths(out) == 0)] <- NA_character_
+    # return(do.call(rbind, out))
     mat_nrow <- length(string)
     mat_ncol <- if (all(is.na(string))) 2 else max(lengths(out))
+
   }
 
   out_mat <- matrix(NA_character_, nrow = mat_nrow, ncol = mat_ncol)
