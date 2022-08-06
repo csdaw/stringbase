@@ -52,7 +52,7 @@ str_match(strings, phone)
 str_match2(strings, phone)
 stringr::str_match(strings, phone)
 
-microbenchmark::microbenchmark(
+xxx <- microbenchmark::microbenchmark(
   str_match(strings, phone),
   str_match2(strings, phone),
   stringr::str_match(strings, phone),
@@ -134,7 +134,7 @@ plot_timings <- function(df, x_var) {
     geom_point(alpha = 0.8) +
     geom_smooth(alpha = 0.8) +
     labs(colour = "Function",
-         y = "Time (µs?)")
+         y = "Time (nanoseconds)")
 
   # Plot x axis vs time, log10 scale
   p2 <- p1 +
@@ -148,7 +148,7 @@ plot_timings <- function(df, x_var) {
   p3 <- ggplot(df_subset, aes(x = time, y = exprs)) +
     geom_boxplot(outlier.shape = NA) +
     geom_jitter() +
-    labs(x = "Time (µs?)",
+    labs(x = "Time (nanoseconds)",
          y = "Function")
 
   print(list(p1, p2, p3))
