@@ -1,11 +1,19 @@
 library(profvis)
 
 set.seed(1)
-strings <- charlatan::ch_phone_number(n = 10000L)
+strings_long <- charlatan::ch_phone_number(n = 10000L)
 phone <- "([2-9][0-9]{2})[- .]([0-9]{3})[- .]([0-9]{4})"
 
 profvis({
-  str_match(strings, phone)
+  str_match(strings_long, phone)
+})
+
+profvis({
+  str_match2(strings_long, phone)
+})
+
+profvis({
+  strcapture(phone, strings_long, data.frame(a=character(), b=character(), c=character()))
 })
 
 x <- rep(c('[hg19:21:34809787-34809808:+]',
