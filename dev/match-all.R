@@ -8,21 +8,52 @@ strings <- c(" 219 733 8965", "329-293-8753 ", "banana", "595 794 7569",
              "Home: 543.355.3679")
 
 str_match_all <- function(string, pattern) {
+  pat_len <- length(pattern)
   tmp <- stringrb::str_replace_all(pattern, "\\\\\\(", "")
   ntokens <- max(nchar(stringrb::str_replace_all(tmp, "[^(]", ""))) + 1
 
-  loc1 <- gregexpr(pattern, string)
+  if (pat_len > 1) {
+    loc1 <- mapply(
+      function(p, s) {
+        gregexpr(
+          text = s,
+          pattern = p,
+          perl = TRUE
+        )
 
-  m1 <- regmatches(string, loc1)
+      },
+      patterns2, string2,
+      USE.NAMES = FALSE
+    )
 
-  Map(function(s, n) {
-    if (length(s) == 0) return(matrix(character(), ncol = n, byrow = TRUE))
+    m1 <- regmatches(
+      if (length(string) == pat_len) string else rep.int(string, pat_len),
+      loc1
+    )
 
-    loc2 <- regexec(pattern, s)
+    Map(function(s, p, n) {
+      if (length(s) == 0) return(matrix(character(), ncol = n, byrow = TRUE))
 
-    m2 <- regmatches(s, loc2)
-    matrix(as.character(unlist(m2)), ncol = n, byrow = TRUE)
-  }, m1, ntokens)
+      loc2 <- regexec(p, s)
+
+      m2 <- regmatches(s, loc2)
+      matrix(as.character(unlist(m2)), ncol = n, byrow = TRUE)
+    }, m1, pattern, ntokens)
+
+  } else {
+    loc1 <- gregexpr(pattern, string)
+
+    m1 <- regmatches(string, loc1)
+
+    Map(function(s, n) {
+      if (length(s) == 0) return(matrix(character(), ncol = n, byrow = TRUE))
+
+      loc2 <- regexec(pattern, s)
+
+      m2 <- regmatches(s, loc2)
+      matrix(as.character(unlist(m2)), ncol = n, byrow = TRUE)
+    }, m1, ntokens)
+  }
 }
 
 stringr::str_match_all(strings, phone)
@@ -51,6 +82,17 @@ t_m1[lengths(t_m1) > 0] <- list()
 stringr::str_match_all(strings, phone)
 t_m1
 
+string2 <- "apple"
+patterns2 <- c("a", "b", "p")
+
+stringr::str_match_all(string2, patterns2)
+str_match_all(string2, patterns2)
+
+microbenchmark(
+  stringr::str_match_all(string2, patterns2),
+  str_match_all(string2, patterns2)
+)
+
 #### TESTS ####
 set.seed(1410)
 num <- matrix(sample(9, 10 * 10, replace = T), ncol = 10)
@@ -66,7 +108,7 @@ str_match_all("a", "(a)(b)?")
 
 phones_one <- stringr::str_c(phones, collapse = " ")
 stringr::str_match_all(phones_one,
-              "\\(([0-9]{3})\\) ([0-9]{3}) ([0-9]{4})")
+                       "\\(([0-9]{3})\\) ([0-9]{3}) ([0-9]{4})")
 str_match_all(phones_one,
               "\\(([0-9]{3})\\) ([0-9]{3}) ([0-9]{4})")
 
@@ -80,13 +122,9 @@ blah <- function() {
   regmatches(strings_long, xxx)
 }
 
-blah()
 microbenchmark(
   stringr::str_match_all(strings_long, phone),
   str_match_all(strings_long, phone),
   blah(),
   times = 20L
 )
-
-str_match3(strings, phone)
-stringr::str_match_all(strings, phone)

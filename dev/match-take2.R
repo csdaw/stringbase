@@ -26,7 +26,7 @@ str_match3 <- function(string, pattern) {
     )
 
     matches <- regmatches(
-      if (length(string) == pat_len) string else rep(string, pat_len),
+      if (length(string) == pat_len) string else rep.int(string, pat_len),
       matcher
     )
 
