@@ -78,9 +78,10 @@ timings <- vector("list", length = length(vec_lens))
 # Perform the timing
 for (i in seq_along(vec_lens)) {
   time_taken <- microbenchmark(
-    str_match = str_match_all(strings[[i]], phone),
-    # str_match2 = str_match_all2(strings[[i]], phone),
-    stringr = stringr::str_match_all(strings[[i]], phone),
+    str_match = str_match(strings[[i]], phone),
+    str_match2 = str_match2(strings[[i]], phone),
+    str_match3 = str_match3(strings[[i]], phone),
+    stringr = stringr::str_match(strings[[i]], phone),
     times = 20L
   )
 

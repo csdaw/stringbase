@@ -13,6 +13,10 @@ profvis({
 })
 
 profvis({
+  str_match3(strings_long, phone)
+})
+
+profvis({
   strcapture(phone, strings_long, data.frame(a=character(), b=character(), c=character()))
 })
 
