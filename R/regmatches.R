@@ -1,4 +1,4 @@
-regmatches <- function (x, m, invert = FALSE)
+regmatches <- function (x, m, invert = FALSE, na_return = character())
 {
   if (length(x) != length(m))
     stop(gettextf("%s and %s must have the same length",
@@ -63,16 +63,19 @@ regmatches <- function (x, m, invert = FALSE)
   }
   else {
     Map(function(u, so, ml) {
+
+      ## Modified code starts: ##
       if (length(so) == 1L) {
-        if (is.na(so) || (so == -1L))
+        if (is.na(so))
+          return(na_return)
+        else if (so == -1L)
           return(character())
       }
 
-      ## Added code starts: ##
       if (any(so == 0)) {
         so[so == 0] <- NA_integer_
       }
-      ## Added code ends: ##
+      ## Modified code ends: ##
       tmp <- substring(u, so, so + ml - 1L)
       dim(tmp) <- dim(so)
       dimnames(tmp) <- dimnames(so)
