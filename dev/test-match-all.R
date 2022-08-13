@@ -14,9 +14,27 @@ stringr::str_match_all(strings, phone)
 
 x <- c("<a> <b>", "<a> <>", "<a>", "", NA)
 
-
 str_match(x, "<(.*?)>")
 stringr::str_match(x, "<(.*?)>")
 
 str_match_all(x, "<(.*?)>")
 stringr::str_match_all(x, "<(.*?)>")
+
+## Tests ##
+set.seed(1410)
+num <- matrix(sample(9, 10 * 10, replace = T), ncol = 10)
+num_flat <- apply(num, 1, stringr::str_c, collapse = "")
+
+phones <- stringr::str_c(
+  "(", num[, 1], num[, 2], num[, 3], ") ",
+  num[, 4], num[, 5], num[, 6], " ",
+  num[, 7], num[, 8], num[, 9], num[, 10])
+
+debugonce(str_match_all)
+debugonce(regmatches)
+str_match_all("a", "(a)(b)?")
+stringr::str_match_all("a", "(a)(b)?")
+
+phones_one <- stringr::str_c(phones, collapse = " ")
+str_match_all(phones_one,"\\(([0-9]{3})\\) ([0-9]{3}) ([0-9]{4})")
+stringr::str_match_all(phones_one,"\\(([0-9]{3})\\) ([0-9]{3}) ([0-9]{4})")

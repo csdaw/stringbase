@@ -90,7 +90,7 @@ str_match_all <- function(string, pattern) {
       matches2 <- regmatches(x = s, m = matcher2)
 
       matrix(as.character(unlist(matches2)), ncol = n, byrow = TRUE)
-    }, matches, pattern, ngroups, USE.NAMES = FALSE)
+    }, matches, pattern, ngroups, USE.NAMES = FALSE, SIMPLIFY = FALSE)
   } else {
     matcher <- gregexpr(
       pattern = pattern,
@@ -116,6 +116,6 @@ str_match_all <- function(string, pattern) {
       matches2 <- regmatches(x = s, m = matcher2, na_return = NA_character_)
 
       matrix(as.character(unlist(matches2)), ncol = n, byrow = TRUE)
-    }, matches, ngroups, USE.NAMES = FALSE)
+    }, matches, ngroups, USE.NAMES = FALSE, SIMPLIFY = FALSE)
   }
 }
